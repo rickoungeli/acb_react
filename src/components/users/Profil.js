@@ -30,7 +30,8 @@ const Profil = () => {
         email: "",
         oldPwd: "",
         newPwd: "",
-        newPwd2: ""
+        newPwd2: "",
+        country: "",
     })
 
     const [error, setError] =useState({
@@ -275,7 +276,7 @@ const Profil = () => {
                             <div className="d-flex flex-column w-75">
                                 <input 
                                     type="text"
-                                    value={user.firstname.trim()}
+                                    value={user.firstname}
                                     className="form-control p-0 m-0 w-100" 
                                     id="firstname"
                                 /> 
@@ -287,7 +288,7 @@ const Profil = () => {
                             <div className="d-flex flex-column w-75">
                                 <input 
                                     type="text" 
-                                    value={user.name.trim()}
+                                    value={user.name}
                                     className="form-control p-0 m-0 w-100" 
                                     id="name"
                                 />
@@ -299,7 +300,7 @@ const Profil = () => {
                             <div className="d-flex flex-column w-75">
                                 <input 
                                     type="text" 
-                                    value={user.email.trim()}
+                                    value={user.email}
                                     className="form-control p-0 m-0 w-100" 
                                     id="email"
                                 />
@@ -311,7 +312,7 @@ const Profil = () => {
                             <div className="d-flex flex-column w-75">
                                 <input 
                                     type="text" 
-                                    value={user.phone.trim()}
+                                    value={user.phone}
                                     className="form-control p-0 m-0 w-100" 
                                     id="phone"
                                 />
@@ -323,11 +324,11 @@ const Profil = () => {
                             <div className="d-flex flex-column w-75">
                                 <input 
                                     type="text" 
-                                    value={user.email.trim()}
+                                    value={user.country}
                                     className="form-control p-0 m-0 w-100" 
                                     id="email"
                                 />
-                                <p className="title7 text-danger mb-0" id="message-email">{message.email}</p>
+                                <p className="title7 text-danger mb-0" id="message-email">{message.country}</p>
                             </div>
                         </div>
                         {error.infos && <p className="alert alert-danger" >Il y a des erreurs, veuillez vérifier votre saisie</p>}
@@ -345,7 +346,7 @@ const Profil = () => {
                         <div className="d-flex flex-column w-75">
                             <input 
                                 type="password" 
-                                value={password.old.trim()}
+                                value={password.old}
                                 className="form-control p-0 m-0 w-100" 
                                 id="oldpwd"
                             /> 
@@ -357,7 +358,7 @@ const Profil = () => {
                         <div className="d-flex flex-column w-75">
                             <input 
                                 type="password" 
-                                value={password.new.trim()}
+                                value={password.new}
                                 className="form-control p-0 m-0 w-100" id="newpwd-1"
                             />
                             <p className="title7 text-danger d-none mb-0" id="message-newpwd-1">{message.newPwd}</p>
@@ -368,7 +369,7 @@ const Profil = () => {
                         <div className="d-flex flex-column w-75">
                             <input 
                                 type="password" 
-                                value={password.confirm.trim()}
+                                value={password.confirm}
                                 className="form-control p-0 m-0 w-100" id="newpwd-2"
                             />
                             <p className="title7 text-danger d-none mb-0" id="message-newpwd-2">{message.newPwd2}</p>

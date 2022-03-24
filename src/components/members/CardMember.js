@@ -6,7 +6,7 @@ import { GoMail } from 'react-icons/go';
 
 const CardMember = ({user}) => {
     return (
-        <div className='card-member d-flex bg-light rounded m-2 p-2'>
+        <div className='card-member card-container d-flex bg-light rounded m-2 p-2'>
             <div className='d-flex justify-content-center align-items-center px-3 py-4 m-1 border border-secondary'>{user.pictureUrl? <img src={pictureUrl} alt="picture" />:<FaUser/>}</div>
             <div className="card-description px-2 fs-6">
                 <div className=''>{user.firstname} {user.name}</div>

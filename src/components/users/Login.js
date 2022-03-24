@@ -48,15 +48,13 @@ const Login = (props) => {
                             id: JSON.parse(this.response).id,
                             loggedIn: true
                         }))
-                        //window.location = '/'
                     }
                 } 
                 else if (this.readyState == 4 && this.status != 200) {
                     setAlert('erreur : '+ this.status);
                 }
             }
-            xhr.open("GET", `https://www.acb92.com/dao/user.dao.php?function=getOneUserFromBdd&email=${email}&password=${password}`, true)
-            //xhr.open("GET", `http://localhost/acb92bis/dao/user.dao.php?function=getOneUserFromBdd&email=${email}&password=${password}`, true)
+            xhr.open("GET", `${process.env.REACT_APP_API_URL}user.dao.php?function=getOneUserFromBdd&email=${email}&password=${password}`, true)
             xhr.send()
 
         } else {

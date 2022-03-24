@@ -21,7 +21,7 @@ const Members = () => {
                 console.log('erreur ', this.status);
             }
         }
-        xhr.open("GET", "https://www.acb92.com/dao/user.dao.php?function=getAllUsersFromBdd", true)
+        xhr.open("GET", `${process.env.REACT_APP_API_URL}user.dao.php?function=getAllUsersFromBdd`, true)
         xhr.send()
     }, [])
 

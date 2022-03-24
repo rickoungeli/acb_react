@@ -68,8 +68,7 @@ const Register = (props) => {
                 }
                 
             }
-            xhr.open("POST", `https://www.acb92.com/dao/user.dao.php`, true)
-            //xhr.open("POST", `http://localhost/acb92bis/dao/user.dao.php`, true)
+            xhr.open("POST", `${process.env.REACT_APP_API_URL}user.dao.php`, true)
             xhr.send(data)
             
         } else {

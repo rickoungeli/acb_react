@@ -12,9 +12,8 @@ $textColor: #f7f7f7;
 $color-1: #61dafb;
 $color-3: #282c34;
 $color-4: rgb(32, 35, 42);
-$textColor1: #eee;
 $blackColor: #0c1013;
-$font-size: 1rem;
+$font-size: .8rem;
 
 /* Fonts */
 $font1: 'Titillium Web', sans-serif;
@@ -33,6 +32,10 @@ body {
     min-height: calc(100vh - 143px);
     width: 100%;
     margin: 0 auto;
+    font-size: $font-size;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: #fff;
 
     @media screen and (min-width: 768px) {
         width: 75%;
@@ -44,6 +47,15 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
 
 }
+
+div, button, input, label {
+    font-size: $font-size;
+}
+.form-control:focus {
+    border-color: #167bff;
+    box-shadow: none;
+  }
+  
 h2 {
     text-align: center;
     font-size: $font-size*2;
@@ -56,7 +68,7 @@ ul {
 }
  
 li {
-    //list-style: none;
+    font-size: $font-size;
     padding: 5px 10px;
     transition: .2s;
     color: $mainColor !important;
@@ -70,6 +82,7 @@ a {
     text-decoration: none;
     color: $mainColor !important;
     transition: .2s;
+    font-size: $font-size;
 
     &:active {
         background-color: cornflowerblue;
@@ -80,12 +93,27 @@ a {
 
     }
 }
-    
-@media screen and (min-width: 500px) {
-    
+
+
+.card-container {
+    border: 1px solid $mainColor;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    padding: 15px;
+}
+.title7 {
+    font-size: 0.8rem;
+    font-style: italic;
+  }
+
+.btn {
+    font-size: $font-size;
 }
 
-@media screen and (min-width: 900px) {
+@keyframes rotate {
+    0% {
+        transform: rotate(-360deg);
+    }
+  }
 
-}
 

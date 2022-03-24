@@ -19,7 +19,7 @@ const Eleves = () => {
                 console.log('erreur ', this.status);
             }
         }
-        xhr.open("GET", "https://www.acb92.com/dao/eleves.dao.php?function=getAllElevesFromBdd", true)
+        xhr.open("GET", `${process.env.REACT_APP_API_URL}eleves.dao.php?function=getAllElevesFromBdd`, true)
         xhr.send()
     }, [])
 

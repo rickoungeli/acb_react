@@ -15,8 +15,8 @@ const Home = () => {
             <Slider />
 
             <h1 className='text-center'></h1>
-            <section className='section section-1'>
-                <h2 className='text-start'>LES ACB 92</h2>
+            <section className='section section-1 alert alert-primary'>
+                <h2 className='text-start bg-primary text-white rounded'>LES ACB 92</h2>
                 <p className='fs-6'>Dans ce site, nous tentons de reconstituer la <NavLink to= {user? '/liste-des-eleves': '/acces-denied'}> liste des toutes les personnes qui ont étudié au Collège Boboto</NavLink> dans l'une ou l'autre des classes et années suivantes : </p>
                 <div className="cards">
                     <div className='cards-image-container border'>
@@ -49,8 +49,8 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-            <section className='section section-2'>
-                <h2 className='text-start'>PROJET ACB92</h2>
+            <section className='section section-2 alert alert-success'>
+                <h2 className='text-start bg-success text-white rounded'>PROJET ACB92</h2>
                 <div className="cards">
                 <div className='cards-image-container border'>
                         <img src={Image_1} alt="photo des acb" />
