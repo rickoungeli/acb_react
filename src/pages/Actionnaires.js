@@ -10,6 +10,7 @@ const Actionnaires = () => {
     const [messageCurrency, setMessageCurrency] = useState('')
     const associes = [
         {id:12, name: 'BASUNGA', firstname: 'Pitchou', amount:20},
+        {id:27, name: 'BEYA KAMBA', firstname: 'Tsherry', amount:20},
         {id:18, name: 'BONDONGA LESAMBO', firstname: 'Patrick', amount:20},
         {id:13, name: 'DIASONAMA KONDE', firstname: 'Jean-François', amount:20},
         {id:22, name: 'DJUNGU-SUNGU', firstname: '', amount:20},
@@ -21,6 +22,8 @@ const Actionnaires = () => {
         {id:19, name: 'LUBANZADIO MENGI', firstname: 'Papy-Philippe', amount:20},
         {id:4, name: 'LUMEDO TONA', firstname: 'Alain', amount:20},
         {id:20, name: 'LUMU BASWE', firstname: 'Emile', amount:20},
+        {id:25, name: 'KAVULA', firstname: 'Tanguy', amount:20},
+        {id:29, name: 'MUTUBULU MABUS', firstname: 'Claude-Robert', amount:20},
         {id:17, name: 'MALU LENANSWEY', firstname: 'Claude', amount:20},
         {id:21, name: 'MAMBU LEMA SIKOTI', firstname: 'Guy-Richard', amount:20},
         {id:5, name: 'MASOSO', firstname: 'Neptune', amount:20},
@@ -28,7 +31,9 @@ const Actionnaires = () => {
         {id:11, name: 'MBENZA BADIANGA', firstname: 'Guy', amount:20},
         {id:9, name: 'MPULULU BIYELA LIMBUTE', firstname: 'Hugues', amount:20},
         {id:2, name: 'MUKOKA', firstname: 'Pierre Patrick', amount:20},
+        {id:26, name: 'MUSONGELA LUMBILATSHI', firstname: 'Pascal', amount:20},
         {id:1, name: 'NGELI NSABAKA', firstname: 'Rickou', amount:20},
+        {id:28, name: 'NITU MANGITUKULU', firstname: 'Freddy', amount:20},
         {id:23, name: 'NSEKA LANDA', firstname: 'Didier', amount:20},
         {id:8, name: 'NZILI MATILI-LIGALU', firstname: 'Papy', amount:20},
         {id:10, name: 'NYAMYL MONGONGU ENDA', firstname: 'Christian', amount:20},

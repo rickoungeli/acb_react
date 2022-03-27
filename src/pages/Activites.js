@@ -1,26 +1,49 @@
 import React, {useState, useEffect} from 'react';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../features/userReducer";
+import { pushLikedActivites } from '../features/activitesReducer';
 import CardActivite from '../components/activites/CardActivite';
 import { FaUser } from 'react-icons/fa';
 
 const Activites = () => {
     const user = useSelector(selectUser)
+    const dispatch = useDispatch()
     const [reveleModale, setReveleModale] = useState(false)
     const [loadActivites, setLoadActivites] = useState(true)
     const [activites, setActivites] = useState([])
     const [inputActivite, setInputActivite] = useState('')
+    //const [likedActivites, setLikedActivites] = useState([])
+
+    const getLikedActivites = () => {
+        //if(loadEleve) {
+            let xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = function(){
+                if (this.readyState == 4 && this.status == 200) {
+                    //Mise en Store
+                    let tableau1 = JSON.parse(this.response)
+                    dispatch(pushLikedActivites(tableau1))
+                    //setLoadEleves(false)
+                } 
+                else if (this.readyState == 4 && this.status != 200) {
+                    setErrorMessage("Une erreur s'est produite")
+                }
+            }
+            xhr.open("GET", `${process.env.REACT_APP_API_URL}projet2022.dao.php?function=getLikedActivites`, true)
+            xhr.send()
+        //}
+    }
+
+    useEffect(()=> {
+        getLikedActivites()
+    }, [])
 
     useEffect(()=> {
         if (loadActivites) { //On récupère les données chaque fois que loadActivites = true
             let xhr = new XMLHttpRequest()
             xhr.onreadystatechange = function(){
-                console.log(this);
                 if (this.readyState == 4 && this.status == 200) {
                     setActivites(JSON.parse(this.response))
                     setLoadActivites(false)
-                    //console.log(JSON.parse(this.response))
-                    
                 } 
                 else if (this.readyState == 4 && this.status != 200) {
                     console.log('erreur ', this.status);
@@ -55,7 +78,12 @@ const Activites = () => {
             <div className='posts'>
                 <ul>
                     {activites.map((activite) => (
-                        <CardActivite activite={activite} key={activite.id} index={activites.indexOf(activite)}/>
+                        <CardActivite 
+                            activite={activite} 
+                            key={activite.idactivite} 
+                            index={activites.indexOf(activite)} 
+                            getLikedActivites={getLikedActivites}
+                        />
                     ))}
 
                 </ul>
