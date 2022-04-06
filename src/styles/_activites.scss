@@ -33,4 +33,8 @@
         object-fit: cover;
         
     }
+
+    .comment-title, .like {
+        cursor: pointer;
+    }
 }

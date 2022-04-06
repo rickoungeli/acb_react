@@ -117,6 +117,16 @@ a {
     font-size: $font-size;
 }
 
+.inputMessage {
+    color: red;
+    text-align: left;
+}
+
+input::placeholder {
+    color: $mainColor;
+    font-size: $font-size;
+}
+
 @keyframes rotate {
     0% {
         transform: rotate(-360deg);

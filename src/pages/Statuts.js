@@ -329,7 +329,7 @@ const Statuts = () => {
         `},
     ]
     return (
-        <div className='statuts-container'>
+        <div className='statuts-container main'>
             <h1 className='text-center'>STATUTS</h1>
             {console.log(convertKey(10))}
             <p><a href="./ACB92_Statuts.docx">Télécharger version word 👇🏿👇🏿 </a></p>

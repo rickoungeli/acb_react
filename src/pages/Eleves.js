@@ -180,7 +180,7 @@ const Eleves = () => {
                 selectedSection={selectedSection} 
                 selectedClasse={selectedClasse} 
                
-                />}
+            />}
             
         </div>
     );

@@ -50,8 +50,8 @@ const CardActivite = ({activite, key, index, getLikedActivites}) => {
                 <h6>{activite.secteur}</h6>
                 <p>{activite.comment}</p>
                 <div className='d-flex justify-content-between'>
-                    <p>Commentaire</p>
-                    <span>J'aime 
+                    <p className='comment-title'>Commentaire</p>
+                    <span className='like'>J'aime 
                         { likedActivites.find((liked) => liked.idactivite===idactivite && liked.iduser===user.id)? 
                             <BsHandThumbsUpFill className='fs-3' onClick={() => saveLikeActivite('dislike')}/> 
                             : <BsHandThumbsUp className='fs-3' onClick={() => saveLikeActivite('like')}/> 
