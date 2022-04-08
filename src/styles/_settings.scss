@@ -127,6 +127,12 @@ input::placeholder {
     font-size: $font-size;
 }
 
+.table {
+    min-width: 500px;
+    overflow-x: scroll !important;
+    
+}
+
 @keyframes rotate {
     0% {
         transform: rotate(-360deg);

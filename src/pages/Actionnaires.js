@@ -12,9 +12,11 @@ const Actionnaires = () => {
     const [actionnaires, setActionnaires] = useState([])
     const [countries, setCountries] = useState([])
     const [loadActionnaires, setLoadActionnaires] = useState(true)
+    const [errorMessage, setErrorMessage] = useState('')
 
-    //Fonction pour récupérer la liste des actionnaires
-    const getActionnaires = () => {
+
+    //Récupération de la liste des Actionnaires
+    useEffect(() => { 
         if(loadActionnaires) {
             let xhr = new XMLHttpRequest()
             xhr.onreadystatechange = function(){
@@ -22,6 +24,7 @@ const Actionnaires = () => {
                 if (this.readyState == 4 && this.status == 200) {
                     setActionnaires(JSON.parse(this.response))
                     setLoadActionnaires(false)
+                    setErrorMessage("")
                 } 
                 else if (this.readyState == 4 && this.status != 200) {
                     setErrorMessage("Une erreur s'est produite")
@@ -30,10 +33,7 @@ const Actionnaires = () => {
             xhr.open("GET", `${process.env.REACT_APP_API_URL}actionnaires.dao.php?function=getActionnaires`, true)
             xhr.send()
         }
-    }
-
-    //Récupération de la liste des Actionnaires
-    useEffect(() => { getActionnaires() }, [loadActionnaires])
+    }, [loadActionnaires])
 
     //Récupération de la liste des pays
     useEffect(() => { 
@@ -56,27 +56,32 @@ const Actionnaires = () => {
                 <p className='text-end pt-2'><a href="#" onClick={()=>dispatch(toggleModale())} className=''>Ajouter un actionnaire</a></p>
             </div>
             
-            <table className='w-100'>
+            <table className='table table-striped'>
                 <thead>
                     <tr className='text-center bg-info text-light'>
                         <th width="5%">N°</th>
-                        <th width="75%">Noms et Prénom</th>
-                        <th width="20%">Montant</th>
+                        <th width='30%'>Noms et Prénom</th>
+                        {user.isAdmin===1 && <th width="25%">Adresse</th>}
+                        {user.isAdmin===1 && <th width="15%">Nationalité</th>}
+                        <th width="15%">Téléphone</th>
                     </tr>
                 </thead>
                 
                 <tbody id="listOfActionnaires" className=''>
-                    {actionnaires
+                    {errorMessage? <tr><td colspan='3' className='alert alert-danger text-center mx-3 my-1 p-1'>{errorMessage}</td></tr> :
+                    actionnaires
                     .map((actionnaire, index) => (
                         <tr key={actionnaire.id} className='border-bottom'>
                             <td width='5%' className='text-end'>{index +1}</td>
-                            <td width='75%' className=' ps-2'>{actionnaire.name} {actionnaire.firstname}</td>
-                            <td width='20%' className='text-center d-none'>{actionnaire.amount}</td>
+                            <td width='30%' className=' ps-2'>{actionnaire.names} {actionnaire.firstname}</td>
+                            {user.isAdmin===1 && <td width='25%' className=' ps-2'>{actionnaire.adress}, {actionnaire.complément && actionnaire.complement + ','} {actionnaire.ville}, {actionnaire.country}</td>}
+                            {user.isAdmin===1 && <td width='15%' className='text-center '>{actionnaire.nationalite}</td>}
+                            <td width='15%' className='text-center '>{actionnaire.phone}</td>
                         </tr>
                     ))}                    
                 </tbody>
             </table>
-            {<AddActionnaireForm countries = {countries}/>}
+            {<AddActionnaireForm countries = {countries} setLoadActionnaires = {setLoadActionnaires}/>}
         </div>
     );
 };
