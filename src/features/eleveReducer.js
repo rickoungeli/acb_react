@@ -3,11 +3,11 @@ import {createSlice} from '@reduxjs/toolkit';
 export const eleveSlice = createSlice({
     name: 'eleve',
     initialState:{
-        reveleModale:false
+        reveleModale:false,
     },
     reducers:{
         toggleModale: (state) => {
-            state.reveleModale = !state.reveleModale;
+            state.reveleModale = !state.reveleModale
         },
     },
 })

@@ -1,24 +1,25 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { toggleModale, selectEleve } from '../../features/eleveReducer';
+import { toggleModale, toggleEdit, selectActionnaire, selectEdit } from '../../features/actionnaireReducer';
 import { selectUser } from "../../features/userReducer";
 
-const AddActionnaireForm = ( {countries, setLoadActionnaires} ) => {
-    const eleve = useSelector(selectEleve)
+const AddActionnaireForm = () => {
+    const actionnaire = useSelector(selectActionnaire)
+    const edit = useSelector(selectEdit)
     const user = useSelector(selectUser)
     const dispatch = useDispatch()
     const [alert, setAlert] = useState('')
-    const [name, setName] = useState('')
+    const [names, setNames] = useState('')
     const [firstname, setFirstname] = useState('')
     const [adress, setAdress] = useState('')
     const [complement, setComplement] = useState('')
     const [zipCode, setZipCode] = useState('')
     const [ville, setVille] = useState('')
-    const [country, setCountry] = useState('RD Congo')
+    const [country, setCountry] = useState('')
     const [phone, setPhone] = useState('+243')
     const [dnaiss, setDnaiss] = useState('')
-    const [selectedSexe, setSelectedSexe] = useState('Masculin')
-    const [nationalite, setNationalite] = useState('')
+    const [selectedSexe, setSelectedSexe] = useState('M')
+    const [nationalite, setNationalite] = useState('congolaise')
     const [messageName, setMessageName] = useState('')
     const [messageFirstname, setMessageFirstname] = useState('')
     const [messageAdress, setMessageAdress] = useState('')
@@ -31,6 +32,21 @@ const AddActionnaireForm = ( {countries, setLoadActionnaires} ) => {
     const borderGreen = { border: "1px solid Green" };
     const sexes = ['Féminin','Masculin']
 
+    useEffect(() => { 
+    setNames(actionnaire[1].names)
+    setFirstname(actionnaire[1].firstname)
+    setAdress(actionnaire[1].adress)
+    setComplement(actionnaire[1].complement)
+    setZipCode(actionnaire[1].zipcode)
+    setVille(actionnaire[1].ville)
+    setCountry(actionnaire[1].country)
+    setPhone(actionnaire[1].phone)
+    setDnaiss(actionnaire[1].dnaiss)
+    setSelectedSexe(actionnaire[1].sexe)
+    setNationalite(actionnaire[1].nationalite)
+    setAlert("");
+    },[actionnaire[1]])
+
     const arrayCompare = (arrayA, arrayB) => {
         for (let i = 0; i < arrayA.length; i++) {
           if (arrayA[i] !== arrayB[i]) {
@@ -39,11 +55,11 @@ const AddActionnaireForm = ( {countries, setLoadActionnaires} ) => {
         }
     };
 
-    const checkName = (name) => {
-        if (!name) {
+    const checkName = (names) => {
+        if (!names) {
           setMessageName("xx");
           return true;
-        } else if (name.length < 2 || name.length > 100) {
+        } else if (names.length < 2 || names.length > 100) {
           setMessageName("xx");
           return true;
         } else {
@@ -53,7 +69,10 @@ const AddActionnaireForm = ( {countries, setLoadActionnaires} ) => {
     };
     
     const checkFirstname = (firstname) => {
-        if (firstname.length < 2 || firstname.length > 100) {
+        if (!firstname) {
+            setMessageFirstname("xx");
+            return true;
+        } else if (firstname.length < 2 || firstname.length > 100) {
           setMessageFirstname("xx");
           return true;
         } else {
@@ -132,7 +151,7 @@ const AddActionnaireForm = ( {countries, setLoadActionnaires} ) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         const checkResultArray=[]
-        checkResultArray.push(checkName(name))
+        checkResultArray.push(checkName(names))
         checkResultArray.push(checkFirstname(firstname))
         checkResultArray.push(checkAdress(adress))
         checkResultArray.push(checkVille(ville))
@@ -145,17 +164,19 @@ const AddActionnaireForm = ( {countries, setLoadActionnaires} ) => {
         if ( arrayCompare(checkResultArray, [false, false, false, false, false, false, false]) !== false) {
             setAlert('')
             const data = new FormData()
-            data.append('function', 'insertActionnaireIntoBdd')
-            data.append('name', htmlEntities(name).trim().toUpperCase()) 
+            
+            data.append('function', edit? 'updateActionnaire':'insertActionnaireIntoBdd')
+            data.append('name', htmlEntities(names).trim().toUpperCase()) 
             data.append('firstname', htmlEntities(firstname).trim())  
             data.append('adress', htmlEntities(adress).trim())  
             data.append('complement', htmlEntities(complement).trim())  
             data.append('ville', htmlEntities(ville).trim())  
+            data.append('zipcode', htmlEntities(zipCode).trim())  
             data.append('country', htmlEntities(country).trim())  
             data.append('phone', htmlEntities(phone).trim())  
             data.append('nationalite', htmlEntities(nationalite).trim())  
             data.append('dnaiss', htmlEntities(dnaiss))  
-            data.append('sexe', htmlEntities(selectedSexe.substring(1,1)))  
+            data.append('sexe', htmlEntities(selectedSexe))  
             data.append('iduser', user.id) 
             
             let xhr = new XMLHttpRequest()
@@ -164,13 +185,14 @@ const AddActionnaireForm = ( {countries, setLoadActionnaires} ) => {
                     if(this.response==='') {
                         setAlert("Echec : l'opération n'a pas réussi")
                     } else {
-                        if(this.response==='Vous avez été enregistré avec succès'){
+                        if(this.response==='Vous avez été enregistré avec succès' || this.response==='La modification est enregistré avec succès'){
                             setAlert(this.response)
-                            setName('')
+                            setNames('')
                             setFirstname('')
                             setAdress('')
                             setComplement('')
                             setVille('')
+                            setZipCode('')
                             setCountry('RD Congo')
                             setPhone('+243')
                             setDnaiss('')
@@ -191,7 +213,8 @@ const AddActionnaireForm = ( {countries, setLoadActionnaires} ) => {
                 }
                 
             }
-            xhr.open("POST", `${process.env.REACT_APP_API_URL}actionnaires.dao.php`, true)
+            
+            xhr.open(edit?"PUT":"POST", `${process.env.REACT_APP_API_URL}actionnaires.dao.php`, true)
             xhr.send(data)
           
         } else {
@@ -202,13 +225,14 @@ const AddActionnaireForm = ( {countries, setLoadActionnaires} ) => {
 
     return (
         <>
-        {eleve &&
+        <h1>BONJOUR</h1>
+        {actionnaire[0] &&
         <div className="overlay">
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header p-2">
-                        <h5 className="modal-title text-primary">Ajout d'un actionnaire</h5>
-                        <button type="button" className="close" onClick={()=> dispatch(toggleModale())}>
+                        <h5 className="modal-title text-primary">{!edit?"Ajout d'un actionnaire":"Modification d'un actionnaire"}</h5>
+                        <button type="button" className="close" onClick={()=> dispatch(toggleModale({}))}>
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -222,14 +246,14 @@ const AddActionnaireForm = ( {countries, setLoadActionnaires} ) => {
                                     id='name'
                                     placeholder="Noms (+ postnoms)"  
                                     className="form-control w-100 text-primary p-1 mb-1"
-                                    value={name}
-                                    onChange={e => setName(e.target.value)}
+                                    value={names}
+                                    onChange={e => setNames(e.target.value)}
                                     style = {messageName? borderRed : borderGreen}
                                 />
                                 {/* {messageName && <p className="inputMessage">messageName</p> } */}
                                 <input 
                                     type="text" 
-                                    Placeholder="Prénom" 
+                                    placeholder="Prénom" 
                                     className="form-control w-100 text-primary p-1"
                                     value={firstname}
                                     onChange={e => setFirstname(e.target.value)}
@@ -321,10 +345,9 @@ const AddActionnaireForm = ( {countries, setLoadActionnaires} ) => {
                                                 type="radio" 
                                                 id={sexe}
                                                 name='sexe'
-                                                selected='selected'
-                                                className="" 
-                                                value={sexe}
-                                                onChange={e => setSelectedSexe(e.target.value)}
+                                                checked={selectedSexe===sexe.substring(0,1)? true:false}
+                                                value={selectedSexe}
+                                                onChange={e => e.target.value==='Masculin'? setSelectedSexe('M'):setSelectedSexe('F')}
                                             />
                                             <label htmlFor={sexe}>{sexe}</label>
                                         </li>

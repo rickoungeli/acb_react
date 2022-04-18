@@ -45,6 +45,8 @@ const Login = (props) => {
                             email: JSON.parse(this.response).email,
                             isAdmin: JSON.parse(this.response).isAdmin,
                             state: JSON.parse(this.response).state,
+                            country: JSON.parse(this.response).country,
+                            phone: JSON.parse(this.response).phone,
                             id: JSON.parse(this.response).id,
                             loggedIn: true
                         }))

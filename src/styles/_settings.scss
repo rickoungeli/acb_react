@@ -111,10 +111,17 @@ a {
 .title7 {
     font-size: 0.8rem;
     font-style: italic;
-  }
+}
 
+.perso-text-size {
+    font-size: $font-size*1.1;
+    color: $mainColor;
+}
 .btn {
     font-size: $font-size;
+}
+.pencil {
+    cursor: pointer;
 }
 
 .inputMessage {
@@ -128,7 +135,7 @@ input::placeholder {
 }
 
 .table {
-    min-width: 500px;
+    //min-width: 500px;
     overflow-x: scroll !important;
     
 }

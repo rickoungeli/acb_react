@@ -10,6 +10,7 @@ const User = (props) => {
     const [messageName, setMessageName] = useState("");
     const [messageFirstname, setMessageFirstname] = useState("");
     const [messageEmail, setMessageEmail] = useState("");
+    const [messageOldPassword, setMessageOldPassword] = useState("");
     const [messagePassword, setMessagePassword] = useState("");
     const [messagePasswordConfirm, setMessagePasswordConfirm] = useState("");
     const borderRed = { border: "1px solid red" };
@@ -35,7 +36,7 @@ const User = (props) => {
       if (!code) {
         setMessageCode("Veuillez renseigner le code avant de vous inscrire");
         return true;
-      } else if (code !== 'college-boboto-1992') {
+      } else if (code !== '1992') {
         setMessageCode("Le code n'est pas valide, veuillez réessayer !");
         return true;
       } else {
@@ -80,6 +81,21 @@ const User = (props) => {
       }
     };
   
+    const checkOldPassword = (password) => {
+      if (!password) {
+        setMessageOldPassword("Veuillez saisir le mot de passe");
+        return true;
+      } else if (password.length < 3 || password.length > 30) {
+        setMessageOldPassword(
+          "Le mot de passe doit contenir entre 3 et 30 caractères"
+        );
+        return true;
+      } else {
+        setMessageOldPassword("");
+        return false;
+      }
+    };
+
     const checkPassword = (password) => {
       if (!password) {
         setMessagePassword("Veuillez saisir le mot de passe");
@@ -139,7 +155,24 @@ const User = (props) => {
                 borderGreen={borderGreen}
                 arrayCompare={arrayCompare}
             /> }
-            {props.profil && <Profil /> }
+            {props.profil && <Profil 
+              messageName={messageName}
+              messageFirstname={messageFirstname}
+              messageEmail={messageEmail}
+              messageOldPassword={messageOldPassword}
+              messagePassword={messagePassword}
+              messagePasswordConfirm={messagePasswordConfirm}
+              htmlEntities={htmlEntities}
+              checkName={checkName}
+              checkFirstname={checkFirstname}
+              checkEmail={checkEmail}
+              checkOldPassword={checkOldPassword}
+              checkPassword={checkPassword}
+              checkPasswordConfirm={checkPasswordConfirm}
+              borderRed={borderRed}
+              borderGreen={borderGreen}
+              arrayCompare={arrayCompare}
+            /> }
             {props.password_forget && <GetPassword 
               checkEmail={checkEmail}
               messageEmail={messageEmail}
