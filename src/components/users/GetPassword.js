@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import emailjs from 'emailjs-com';
 import { NavLink } from 'react-router-dom';
 import { FcApproval } from 'react-icons/fc';
 
 const GetPassword = (props) => {
     const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     const [alert, setAlert] = useState('')
     const [alert1, setAlert1] = useState('')
     const [messageEmailSent, setMessageEmailSent] = useState(false)
@@ -12,10 +14,55 @@ const GetPassword = (props) => {
     const handleSubmit = e => {
         e.preventDefault()
         if (!props.checkEmail(email)){
-            setMessageEmailSent(true)
-
+            //création et enregistrement du mot de passe provisoire
+            let pass = Math.round(Math.random() * 546892)
+            setPassword(pass)
+            //setTimeout(()=>{
+                //console.log(pass);
+                const data = new FormData()
+                data.append('function', 'putProvisoirePassword')
+                data.append('email', email) 
+                data.append('password', pass)
+    
+                let xhr = new XMLHttpRequest()
+                xhr.onreadystatechange = function(){  
+                    if (this.readyState == 4 && this.status == 200) {
+                        if(this.response=='') {
+                            setAlert("Echec")
+                        } else if(this.response=='succès') {
+                            //envoie d'email
+                            const templateParams = {
+                                name: 'Gmail',
+                                password: pass,
+                                adress: email
+                            };
+    
+                            emailjs.send('service_cf04zl2','template_oy1mmap', templateParams, '0JE7UzJnc76mjtyOz')
+                            .then((response) => {
+                                //console.log('SUCCESS!', response.status, response.text);
+                                setMessageEmailSent(true)
+                            }, (err) => {
+                                //console.log('FAILED...', err);
+                                setAlert("L'envoi d'email a échoué, nous corrigeons le problème")
+                            });
+                            
+                            
+                        }
+                        else {
+                            setAlert(this.response)
+                        }
+                    } 
+                    else if (this.readyState == 4 && this.status != 200) {
+                        setAlert("Echec");
+                    }
+                    
+                }
+                xhr.open("POST", `${process.env.REACT_APP_API_URL}user.dao.php`, true)
+                xhr.send(data)
+                
+            //},1000)
+            
         }
-        //envoie d'email
 
     }
 
@@ -67,8 +114,8 @@ const GetPassword = (props) => {
 
                 </form>}
                 {messageEmailSent && <div className=''>
-                    <p className='alert alert-success w-100 mt-5 text-center'><FcApproval style={{fontSize:50}}/><br /> Un email vous a été envoyé, vous allez le recevoir dans un instant.</p>
-                    <p className="alert alert-danger">Attention cette fonctionnalité n'est pas encore opérationnelle !!</p>
+                    <p className='alert alert-success w-100 mt-5 text-center'><FcApproval style={{fontSize:50}}/><br /> Un email contenant un mot de passe provisoire vous a été envoyé, vous allez le recevoir dans un instant. <br/>Vous pourrez modifier ce mot de passe dans votre profil</p>
+                    <p className="alert alert-danger d-none">Attention cette fonctionnalité n'est pas encore opérationnelle !!</p>
                 </div>}
                 
             </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { toggleModale, toggleEdit, selectActionnaire, selectEdit } from '../../features/actionnaireReducer';
+import { toggleModale, toggleEdit, loadActionnaires, selectActionnaire, selectEdit } from '../../features/actionnaireReducer';
 import { selectUser } from "../../features/userReducer";
 
 const AddActionnaireForm = () => {
@@ -15,7 +15,7 @@ const AddActionnaireForm = () => {
     const [complement, setComplement] = useState('')
     const [zipCode, setZipCode] = useState('')
     const [ville, setVille] = useState('')
-    const [country, setCountry] = useState('')
+    const [country, setCountry] = useState('RD Congo')
     const [phone, setPhone] = useState('+243')
     const [dnaiss, setDnaiss] = useState('')
     const [selectedSexe, setSelectedSexe] = useState('M')
@@ -33,20 +33,19 @@ const AddActionnaireForm = () => {
     const sexes = ['Féminin','Masculin']
 
     useEffect(() => { 
-    setNames(actionnaire[1].names)
-    setFirstname(actionnaire[1].firstname)
-    setAdress(actionnaire[1].adress)
-    setComplement(actionnaire[1].complement)
-    setZipCode(actionnaire[1].zipcode)
-    setVille(actionnaire[1].ville)
-    setCountry(actionnaire[1].country)
-    setPhone(actionnaire[1].phone)
-    setDnaiss(actionnaire[1].dnaiss)
-    setSelectedSexe(actionnaire[1].sexe)
-    setNationalite(actionnaire[1].nationalite)
-    setAlert("");
-    },[actionnaire[1]])
-
+        if(edit) {
+            console.log(edit);
+            setNames(actionnaire[1].names)
+            setFirstname(actionnaire[1].firstname)
+            setAdress(actionnaire[1].adress)
+            setVille(actionnaire[1].ville)
+            setCountry(actionnaire[1].country)
+            setPhone(actionnaire[1].phone)
+            setDnaiss(actionnaire[1].dnaiss)
+            setNationalite(actionnaire[1].nationalite)
+            setSelectedSexe(actionnaire[1].sexe)
+        }
+    }, [actionnaire])
     const arrayCompare = (arrayA, arrayB) => {
         for (let i = 0; i < arrayA.length; i++) {
           if (arrayA[i] !== arrayB[i]) {
@@ -197,15 +196,16 @@ const AddActionnaireForm = () => {
                             setPhone('+243')
                             setDnaiss('')
                             setNationalite('')
-                            setSelectedSexe('Masculin')
+                            setSelectedSexe('M')
+                            dispatch(loadActionnaires())
                             setTimeout(() => {
                                 setAlert('')
+                                dispatch(toggleModale({}))
                             }, 2000);
-                            setLoadActionnaires(true)
-                            dispatch(toggleModale())
+                            
                         }
                         setAlert(this.response)
-                        //window.location = '/'
+                        
                     }
                 } 
                 else if (this.readyState == 4 && this.status != 200) {
@@ -214,7 +214,7 @@ const AddActionnaireForm = () => {
                 
             }
             
-            xhr.open(edit?"PUT":"POST", `${process.env.REACT_APP_API_URL}actionnaires.dao.php`, true)
+            xhr.open("POST", `${process.env.REACT_APP_API_URL}actionnaires.dao.php`, true)
             xhr.send(data)
           
         } else {
@@ -225,10 +225,9 @@ const AddActionnaireForm = () => {
 
     return (
         <>
-        <h1>BONJOUR</h1>
         {actionnaire[0] &&
         <div className="overlay">
-            <div className="modal-dialog">
+            <div className="modal-dialog col-12 col-md-8">
                 <div className="modal-content">
                     <div className="modal-header p-2">
                         <h5 className="modal-title text-primary">{!edit?"Ajout d'un actionnaire":"Modification d'un actionnaire"}</h5>
@@ -339,15 +338,16 @@ const AddActionnaireForm = () => {
                                 </div>
                                 <ul className='d-flex border col-12 col-sm-6'>
                                     Sexe :
-                                    {sexes.map((sexe) => (
-                                        <li>
+                                    {sexes.map((sexe, index) => (
+                                        
+                                        <li key = {index}>
                                             <input 
                                                 type="radio" 
                                                 id={sexe}
                                                 name='sexe'
-                                                checked={selectedSexe===sexe.substring(0,1)? true:false}
+                                                checked={selectedSexe==sexe.substring(0,1)? true:false}
                                                 value={selectedSexe}
-                                                onChange={e => e.target.value==='Masculin'? setSelectedSexe('M'):setSelectedSexe('F')}
+                                                onChange={e => setSelectedSexe(e.target.id.substring(0,1))}
                                             />
                                             <label htmlFor={sexe}>{sexe}</label>
                                         </li>

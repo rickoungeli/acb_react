@@ -102,6 +102,9 @@ a {
     left: 0;
     right: 0;
 }
+.modal-dialog {
+    width: 100%!important;
+}
 .card-container {
     border: 1px solid $mainColor;
     border-radius: 15px;
@@ -135,9 +138,9 @@ input::placeholder {
 }
 
 .table {
-    //min-width: 500px;
+    min-width: 300px;
     overflow-x: scroll !important;
-    
+    width: 100%;
 }
 
 @keyframes rotate {

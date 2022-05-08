@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import Denied from "./pages/Denied";
 import User from "./pages/User"
 import Footer from "./components/commons/Footer";
+import ActionnairesListPdf from "./pages/ActionnairesListPdf";
 
 const App = () => {
   const user = useSelector(selectUser)
@@ -35,6 +36,7 @@ const App = () => {
         <Route path="/register" element={<User register='register' />} />
         <Route path="/password_forget" element={<User password_forget='password_forget' />} />
         <Route path="/acces-denied" element={<Denied />} />
+        <Route path="/actionnaires-list-pdf" element={<ActionnairesListPdf />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
